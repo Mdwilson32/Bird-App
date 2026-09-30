@@ -186,14 +186,15 @@ async function renderSpeciesDetail(id) {
       <h1>${esc(sp.name)}</h1>
       <p class="sci">${esc(sp.sci)}</p>
       ${catChip(sp.category)}
-      <a class="ext" href="${guideUrl(sp)}" target="_blank" rel="noopener">Species guide at All About Birds ↗</a>
+      ${sp.note ? `<p class="sp-note${sp.retired ? ' warn' : ''}">${esc(sp.note)}</p>` : ''}
+      ${guideUrl(sp) ? `<a class="ext" href="${guideUrl(sp)}" target="_blank" rel="noopener">Species guide at All About Birds ↗</a>` : ''}
     </section>
     <section class="stats">
       <div><span class="big">${st?.birds || 0}</span><span class="muted small">birds</span></div>
       <div><span class="big">${st?.hunts || 0}</span><span class="muted small">log entries</span></div>
       <div><span class="big small-date">${st ? fmtDate(st.first, { month: 'short', year: 'numeric' }) : '—'}</span><span class="muted small">first harvest</span></div>
     </section>
-    <a class="btn primary block" href="#/new?species=${sp.id}">＋ Log a harvest</a>
+    ${sp.retired ? '' : `<a class="btn primary block" href="#/new?species=${sp.id}">＋ Log a harvest</a>`}
     <h2 class="section-title">Your log</h2>
     ${entries.length ? `<div class="entries">${entries.map((e) => entryCard(e, { showSpecies: false })).join('')}</div>` : `<p class="empty">No harvests logged for this species yet.</p>`}`;
 }
@@ -323,6 +324,7 @@ async function renderForm(id, params) {
     photos: [],
   };
   const photos = [...(entry.photos || [])];
+  const retired = speciesById.get(entry.speciesId)?.retired ? speciesById.get(entry.speciesId) : null;
   const back = existing ? `#/entry/${encodeURIComponent(existing.id)}` : entry.speciesId ? `#/species/${entry.speciesId}` : '#/log';
   setHeader(existing ? 'Edit harvest' : 'Log harvest', back);
   setTab(existing ? 'log' : 'new');
@@ -332,6 +334,7 @@ async function renderForm(id, params) {
       <label>Species
         <select name="speciesId" required>
           <option value="">Choose a species…</option>
+          ${retired ? `<option value="${retired.id}" selected>${esc(retired.name)} (not a CA game bird)</option>` : ''}
           ${CATEGORIES.map(
             (c) => `<optgroup label="${esc(c.name)}">${SPECIES.filter((sp) => sp.category === c.id)
               .map((sp) => `<option value="${sp.id}" ${sp.id === entry.speciesId ? 'selected' : ''}>${esc(sp.name)}</option>`)
@@ -529,7 +532,7 @@ async function renderData() {
       <h2>Danger zone</h2>
       <button class="btn danger block" id="wipe">Delete all entries</button>
     </section>
-    <p class="muted small center">Species legal status varies by state and season. Always check current regulations.</p>`;
+    <p class="muted small center">The species list covers California game birds. Seasons, zones and limits change every year, so always check current <a href="https://wildlife.ca.gov/Regulations" target="_blank" rel="noopener">CDFW regulations</a>.</p>`;
 
   view.querySelector('#persist')?.addEventListener('click', async () => {
     const ok = await navigator.storage.persist();

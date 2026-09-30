@@ -1,6 +1,6 @@
 // Offline support: cache the app shell, serve it cache-first, refresh in the background.
 // Bump CACHE when shipping changes so clients pick them up.
-const CACHE = 'bird-logbook-v2';
+const CACHE = 'bird-logbook-v3';
 const SHELL = [
   './',
   'index.html',

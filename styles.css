@@ -314,6 +314,8 @@ a { color: var(--accent); }
 }
 .hero h1 { margin: 0; font-size: 24px; }
 .hero .sci { margin: 2px 0 10px; font-style: italic; color: var(--muted); }
+.sp-note { margin: 10px 0 0; font-size: 14px; }
+.sp-note.warn { color: var(--danger); }
 .hero .ext { display: block; margin-top: 12px; font-size: 14px; }
 
 .stats {
