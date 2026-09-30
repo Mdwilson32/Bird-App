@@ -30,7 +30,7 @@ const today = () => {
 const fmtDate = (iso, opts = { month: 'short', day: 'numeric', year: 'numeric' }) =>
   new Date(`${iso}T12:00:00`).toLocaleDateString(undefined, opts);
 
-const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+const plural = (n, word, many = `${word}s`) => `${n} ${n === 1 ? word : many}`;
 
 function toast(msg) {
   const el = document.getElementById('toast');
@@ -505,7 +505,7 @@ async function renderData() {
   view.innerHTML = `
     <section class="card">
       <h2>Your data</h2>
-      <p class="muted">${plural(all.length, 'entry')}, ${plural(photoCount, 'photo')}${usage}. Everything is stored only on this device.</p>
+      <p class="muted">${plural(all.length, 'entry', 'entries')}, ${plural(photoCount, 'photo')}${usage}. Everything is stored only on this device.</p>
       ${
         persisted
           ? `<p class="ok small">✓ Storage is protected from automatic browser cleanup.</p>`
@@ -557,9 +557,9 @@ async function renderData() {
         if (!e.id || !e.speciesId || !e.date) continue;
         entries.push({ ...e, count: Number(e.count) || 1, photos: await Promise.all((e.photos || []).map(dataUrlToBlob)) });
       }
-      if (!confirm(`Restore ${plural(entries.length, 'entry')}? Entries with the same ID will be overwritten; others are kept.`)) return;
+      if (!confirm(`Restore ${plural(entries.length, 'entry', 'entries')}? Entries with the same ID will be overwritten; others are kept.`)) return;
       await db.putEntries(entries);
-      toast(`Restored ${plural(entries.length, 'entry')}`);
+      toast(`Restored ${plural(entries.length, 'entry', 'entries')}`);
       renderData();
     } catch (e) {
       alert(`Restore failed: ${e.message || e}`);
