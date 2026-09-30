@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cut">
+    <meta name="theme-color" content="#2f4a3a">
+    <meta name="description" content="A field logbook for game bird hunting — browse species and record your harvests.">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Bird Logbook</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <button id="back" class="back" hidden aria-label="Back">‹</button>
+      <span id="title">Bird Logbook</span>
+    </header>
+
+    <main id="view" class="view"></main>
+
+    <nav class="tabbar">
+      <a href="#/species" data-tab="species"><span class="ico">🦆</span>Species</a>
+      <a href="#/new" data-tab="new" class="add"><span class="ico">＋</span>Log</a>
+      <a href="#/log" data-tab="log"><span class="ico">📖</span>Logbook</a>
+      <a href="#/data" data-tab="data"><span class="ico">⚙︎</span>Data</a>
+    </nav>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>

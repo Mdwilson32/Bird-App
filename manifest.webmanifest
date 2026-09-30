@@ -1,0 +1,13 @@
+{
+  "name": "Bird Logbook",
+  "short_name": "Bird Log",
+  "description": "A field logbook for game bird hunting — browse species and record your harvests.",
+  "start_url": "./#/species",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f1ea",
+  "theme_color": "#2f4a3a",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
